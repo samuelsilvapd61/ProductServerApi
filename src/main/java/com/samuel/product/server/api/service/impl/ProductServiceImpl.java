@@ -1,11 +1,15 @@
 package com.samuel.product.server.api.service.impl;
 
+import com.samuel.product.server.api.converter.ProductConverter;
 import com.samuel.product.server.api.domain.Product;
+import com.samuel.product.server.api.domain.request.ProductRequest;
 import com.samuel.product.server.api.repository.ProductRepository;
 import com.samuel.product.server.api.service.ProductService;
+import com.samuel.product.server.api.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -13,9 +17,12 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductConverter productConverter;
 
-    public Product addProduct(Product request) {
-        return productRepository.save(request);
+    public Product addProduct(ProductRequest request) {
+        var product = productConverter.toEntity(request);
+        product.setInclusionDate(DateUtil.nowDateTime());
+        return productRepository.save(product);
     }
 
     public List<Product> getAllProducts() {
@@ -23,11 +30,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(String id, Product request) {
+    public Product updateProduct(String id, ProductRequest request) {
         var actualProduct = findByIdOrFail(id);
-        var updateProduct = buildUpdatedProduct(actualProduct, request);
 
-        return productRepository.save(updateProduct);
+        var productWithUpdates = productConverter.toEntity(request);
+        var updatedProduct = buildUpdatedProduct(actualProduct, productWithUpdates);
+
+        return productRepository.save(updatedProduct);
     }
 
     @Override

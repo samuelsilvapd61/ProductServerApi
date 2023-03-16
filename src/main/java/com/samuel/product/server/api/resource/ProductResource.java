@@ -1,6 +1,7 @@
 package com.samuel.product.server.api.resource;
 
 import com.samuel.product.server.api.domain.Product;
+import com.samuel.product.server.api.domain.request.ProductRequest;
 import com.samuel.product.server.api.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class ProductResource {
 
     //Trocar Product para ProductRequest
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        var produto = productService.addProduct(product);
+    public ResponseEntity<Product> addProduct(@RequestBody ProductRequest request) {
+        var produto = productService.addProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(produto);
     }
 
@@ -32,8 +33,8 @@ public class ProductResource {
     @PatchMapping
     public ResponseEntity<Product> updateProduct(
             @RequestParam String id,
-            @RequestBody Product product) {
-        var produto = productService.updateProduct(id, product);
+            @RequestBody ProductRequest request) {
+        var produto = productService.updateProduct(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
 

@@ -7,7 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -20,8 +21,8 @@ public class Product {
     private String name;
     private String description;
     private String provider;
-    private Date fabricationDate;
-    private Date expirationDate;
-    private Date inclusionDate;
+    private LocalDate fabricationDate;
+    private LocalDate expirationDate;
+    private LocalDateTime inclusionDate;
 
 }
