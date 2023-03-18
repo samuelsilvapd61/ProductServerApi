@@ -10,7 +10,10 @@ public class ProductConverter {
         return Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
+                .category(request.getCategory())
+                .productBrand(request.getProductBrand())
                 .provider(request.getProvider())
+                .barCode(request.getBarCode())
                 .fabricationDate(request.getFabricationDate())
                 .expirationDate(request.getExpirationDate())
                 .build();
