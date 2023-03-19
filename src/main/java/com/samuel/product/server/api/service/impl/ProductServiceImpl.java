@@ -7,6 +7,7 @@ import com.samuel.product.server.api.repository.ProductRepository;
 import com.samuel.product.server.api.service.ProductService;
 import com.samuel.product.server.api.util.DateUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    @Override
+    public List<Product> getProductsByParameterPageable(Product product, Pageable pageable) {
+        return productRepository.findProduct(product, pageable);
     }
 
     @Override
