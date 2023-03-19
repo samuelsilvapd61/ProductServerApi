@@ -6,9 +6,8 @@ import com.samuel.product.server.api.domain.request.ProductRequest;
 import com.samuel.product.server.api.service.impl.ProductServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,14 +42,11 @@ public class ProductResource {
             @RequestParam(required = false) LocalDate fabricationDate,
             @RequestParam(required = false) LocalDate expirationDate,
             @RequestParam(required = false) LocalDateTime inclusionDate,
-            @RequestParam(required = true) Integer page,
-            @RequestParam(required = true) Integer size,
-            @RequestParam(required = true) String filter
+            @PageableDefault Pageable pageable
     ) {
         var product = productConverter.buildNewProduct(
                 id, name, description, category, productBrand, provider,
                 barCode, fabricationDate, expirationDate, inclusionDate);
-        Pageable pageable = PageRequest.of(page, size, Sort.by(filter));
         var lista = productService.getProductsByParameterPageable(product, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
@@ -58,7 +54,7 @@ public class ProductResource {
     @PatchMapping
     public ResponseEntity<Product> updateProduct(
             @RequestParam String id,
-            @Valid @RequestBody ProductRequest request) {
+            @RequestBody ProductRequest request) {
         var produto = productService.updateProduct(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
