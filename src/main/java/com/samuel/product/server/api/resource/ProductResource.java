@@ -53,7 +53,7 @@ public class ProductResource {
 
     @PatchMapping
     public ResponseEntity<Product> updateProduct(
-            @RequestParam String id,
+            @RequestParam(required = false, defaultValue = "") String id,
             @RequestBody ProductRequest request) {
         var produto = productService.updateProduct(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
@@ -61,7 +61,7 @@ public class ProductResource {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProduct(@RequestParam String id) {
+    public void deleteProduct(@RequestParam(required = false, defaultValue = "") String id) {
         productService.deleteProduct(id);
     }
 }

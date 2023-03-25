@@ -3,6 +3,8 @@ package com.samuel.product.server.api.service.impl;
 import com.samuel.product.server.api.converter.ProductConverter;
 import com.samuel.product.server.api.domain.Product;
 import com.samuel.product.server.api.domain.request.ProductRequest;
+import com.samuel.product.server.api.exception.ApiError;
+import com.samuel.product.server.api.exception.ApiException;
 import com.samuel.product.server.api.repository.ProductRepository;
 import com.samuel.product.server.api.service.ProductService;
 import com.samuel.product.server.api.util.DateUtil;
@@ -47,7 +49,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product findByIdOrFail(String id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+        if (id.isBlank()) { throw new ApiException(ApiError.ID_NOT_BLANK); }
+        return productRepository.findById(id).orElseThrow(() -> new ApiException(ApiError.PRODUCT_NOT_FOUND));
     }
 
     private Product buildUpdatedProduct(Product actualProduct, Product request) {
