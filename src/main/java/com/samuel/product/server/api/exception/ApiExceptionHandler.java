@@ -19,6 +19,10 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    private ApiErrorDto buildApiError(ApiException e) {
+        return buildApiError(e.getMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         var fieldError = exception.getFieldError().getField();
@@ -52,9 +56,9 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    private ApiErrorDto buildApiError(ApiException e) {
-        return buildApiError(e.getMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
-    }
+    //private ApiErrorDto buildApiError(ApiException e) {
+    //    return buildApiError(e.getMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
+    //}
 
     private ApiErrorDto buildApiError(String message, String code, String title, HttpStatus httpStatus) {
         return ApiErrorDto.builder()
@@ -66,4 +70,7 @@ public class ApiExceptionHandler {
                 .build();
     }
 
+    private ApiErrorDto buildApiError(ApiError e) {
+        return buildApiError(e.getFormattedMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
+    }
 }
