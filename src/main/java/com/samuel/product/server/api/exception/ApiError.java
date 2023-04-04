@@ -3,12 +3,9 @@ package com.samuel.product.server.api.exception;
 
 import com.samuel.product.server.api.util.Messages;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
-
-import java.util.Arrays;
 
 import static com.samuel.product.server.api.exception.ApiError.Constants.TITLE_VALIDATION_ERROR;
 
@@ -16,14 +13,17 @@ import static com.samuel.product.server.api.exception.ApiError.Constants.TITLE_V
 public enum ApiError {
 
     PRODUCT_NOT_FOUND("PV-4000", "msg.product.not-found", HttpStatus.NOT_FOUND, TITLE_VALIDATION_ERROR),
-    ID_NOT_BLANK("PV-4001", "ID de produto não pode ser vazio", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR);
+    ID_NOT_BLANK("PV-4001", "msg.product.id.not-blank", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
+    PRODUCT_NAME_NOT_BLANK("PV-4002", "NotBlank.productRequest.name", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
+    PRODUCT_CATEGORY_NOT_BLANK("PV-4003", "NotBlank.productRequest.category", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
+    UNKNOW_VALIDATION_ERROR("PV-4004", "msg.unknow-validation-error", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR);
+
 
     private String code;
-    private String detail;
-    private HttpStatus httpStatus;
-    private String title;
 
     private String messageKey;
+    private HttpStatus httpStatus;
+    private String title;
     private Object[] messageParams;
 
     private ApiError(String code, String messageKey, HttpStatus status) {
@@ -52,15 +52,14 @@ public enum ApiError {
         return this;
     }
 
-
-    /*public static ApiError fromMessageCode(String messageCode) {
-        return Arrays.stream(values())
-                .filter(code -> code.getDetail().equals(messageCode))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid message code: " + messageCode));
-    }*/
-
-
+    public static ApiError encontrarEnum(String valor) {
+        for (ApiError e : ApiError.values()) {
+            if (e.messageKey.equalsIgnoreCase(valor)) {
+                return e;
+            }
+        }
+        return null;
+    }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Constants {

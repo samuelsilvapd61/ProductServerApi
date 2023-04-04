@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.Objects;
+
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
@@ -25,40 +27,42 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        var fieldError = exception.getFieldError().getField();
-        var defaultMessage = exception.getFieldError().getDefaultMessage();
+        var e = exception.getFieldError().getCodes()[0];
+        var enumEncontrado = ApiError.encontrarEnum(e);
 
-        var mensagem = fieldError + " "  + defaultMessage;
-        var statusCode = exception.getStatusCode();
-        var titulo = "Erro de validação";
-        var response = buildApiError(mensagem, "PV-4002", titulo, (HttpStatus) statusCode);
-
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return handleApiException(new ApiException(Objects.requireNonNullElse(enumEncontrado, ApiError.UNKNOW_VALIDATION_ERROR)));
     }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiErrorDto> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
 
-        var mensagem = exception.getCause().getCause().getMessage();
-        var titulo = "Erro de formatação";
-        var statusCode = HttpStatus.BAD_REQUEST;
-        var response = buildApiError(mensagem, "NR-4000", titulo, statusCode);
+        if (exception.getCause().getCause() == null) {
+            var mensagem = "Erro de formatação desconhecido";
+            var titulo = "Erro de formatação";
+            var statusCode = HttpStatus.BAD_REQUEST;
+            var response = buildApiError(mensagem, "NR-4000", titulo, statusCode);
+            return ResponseEntity.status(response.getStatus()).body(response);
 
-        return ResponseEntity.status(response.getStatus()).body(response);
+        } else {
+            var mensagem = exception.getCause().getCause().getMessage();
+            var titulo = "Erro de formatação";
+            var statusCode = HttpStatus.BAD_REQUEST;
+            var response = buildApiError(mensagem, "NR-4000", titulo, statusCode);
+            return ResponseEntity.status(response.getStatus()).body(response);
+        }
+
     }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiErrorDto> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
 
         var mensagem = exception.getCause().getCause().getMessage();
         var titulo = "Erro de formatação - parâmetro inválido";
         var statusCode = HttpStatus.BAD_REQUEST;
-        var response = buildApiError(mensagem, "NR-4001", titulo, statusCode);
+        var response = buildApiError(mensagem, "TM-4000", titulo, statusCode);
 
         return ResponseEntity.status(response.getStatus()).body(response);
     }
-
-    //private ApiErrorDto buildApiError(ApiException e) {
-    //    return buildApiError(e.getMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
-    //}
 
     private ApiErrorDto buildApiError(String message, String code, String title, HttpStatus httpStatus) {
         return ApiErrorDto.builder()
