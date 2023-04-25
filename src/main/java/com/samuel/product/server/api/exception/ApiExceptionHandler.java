@@ -25,6 +25,11 @@ public class ApiExceptionHandler {
         return buildApiError(e.getMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorDto> exception(Exception exception) {
+        return handleApiException(new ApiException(ApiError.UNKNOW_ERROR));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         var e = exception.getFieldError().getCodes()[0];
@@ -50,7 +55,6 @@ public class ApiExceptionHandler {
             var response = buildApiError(mensagem, "NR-4000", titulo, statusCode);
             return ResponseEntity.status(response.getStatus()).body(response);
         }
-
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

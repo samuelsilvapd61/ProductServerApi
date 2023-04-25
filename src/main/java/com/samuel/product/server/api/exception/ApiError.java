@@ -16,7 +16,8 @@ public enum ApiError {
     ID_NOT_BLANK("PV-4001", "msg.product.id.not-blank", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     PRODUCT_NAME_NOT_BLANK("PV-4002", "NotBlank.productRequest.name", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     PRODUCT_CATEGORY_NOT_BLANK("PV-4003", "NotBlank.productRequest.category", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
-    UNKNOW_VALIDATION_ERROR("PV-4004", "msg.unknow-validation-error", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR);
+    UNKNOW_VALIDATION_ERROR("PV-4004", "msg.unknow-validation-error", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
+    UNKNOW_ERROR("UE-500", "msg.unknow-error", HttpStatus.INTERNAL_SERVER_ERROR, "Unknow Server Error");
 
 
     private String code;
