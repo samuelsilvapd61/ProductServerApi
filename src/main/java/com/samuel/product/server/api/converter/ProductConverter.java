@@ -21,7 +21,7 @@ public class ProductConverter {
                 .expirationDate(request.getExpirationDate())
                 .build();
     }
-    public Product buildNewProduct(String id,
+    public Product buildNewProduct(Long id,
                             String name,
                             String description,
                             String category,

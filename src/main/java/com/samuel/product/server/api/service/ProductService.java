@@ -10,8 +10,8 @@ public interface ProductService {
 
     public Product addProduct(ProductRequest request);
     public List<Product> getProductsByParameterPageable(Product product, Pageable pageable);
-    public Product updateProduct(String id, ProductRequest request);
-    public void deleteProduct(String id);
+    public Product updateProduct(Long id, ProductRequest request);
+    public void deleteProduct(Long id);
 
 
 }

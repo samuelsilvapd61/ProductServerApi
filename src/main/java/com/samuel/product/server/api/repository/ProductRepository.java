@@ -1,28 +1,28 @@
 package com.samuel.product.server.api.repository;
 
 import com.samuel.product.server.api.domain.Product;
+
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends MongoRepository<Product, String> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("""
-            {$and: [
-            {$or: [{$where: '":#{#product.id}" == "null"'}, {'id': :#{#product.id}}]},
-            {$or: [{$where: '":#{#product.name}" == "null"'}, {'name': :#{#product.name}}]},
-            {$or: [{$where: '":#{#product.description}" == "null"'}, {'description': :#{#product.description}}]},
-            {$or: [{$where: '":#{#product.category}" == "null"'}, {'category': :#{#product.category}}]},
-            {$or: [{$where: '":#{#product.productBrand}" == "null"'}, {'productBrand': :#{#product.productBrand}}]},
-            {$or: [{$where: '":#{#product.provider}" == "null"'}, {'provider': :#{#product.provider}}]},
-            {$or: [{$where: '":#{#product.barCode}" == "null"'}, {'barCode': :#{#product.barCode}}]},
-            {$or: [{$where: '":#{#product.fabricationDate}" == "null"'}, {'fabricationDate': :#{#product.fabricationDate}}]},
-            {$or: [{$where: '":#{#product.expirationDate}" == "null"'}, {'expirationDate': :#{#product.expirationDate}}]},
-            {$or: [{$where: '":#{#product.inclusionDate}" == "null"'}, {'inclusionDate': :#{#product.inclusionDate}}]}
-            ]}""")
-    List<Product> findProduct(Product product, Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE "
+            + "(:#{#product.id} IS NULL OR p.id = :#{#product.id}) AND " +
+            "(:#{#product.name} IS NULL OR p.name LIKE %:#{#product.name}%) AND " +
+            "(:#{#product.description} IS NULL OR p.description LIKE %:#{#product.description}%) AND " +
+            "(:#{#product.category} IS NULL OR p.category LIKE %:#{#product.category}%) AND " +
+            "(:#{#product.productBrand} IS NULL OR p.productBrand LIKE %:#{#product.productBrand}%) AND " +
+            "(:#{#product.provider} IS NULL OR p.provider LIKE %:#{#product.provider}%) AND " +
+            "(:#{#product.barCode} IS NULL OR p.barCode = :#{#product.barCode}) AND " +
+            "(:#{#product.fabricationDate} IS NULL OR p.fabricationDate = :#{#product.fabricationDate}) AND " +
+            "(:#{#product.expirationDate} IS NULL OR p.expirationDate = :#{#product.expirationDate}) AND " +
+            "(:#{#product.inclusionDate} IS NULL OR p.inclusionDate = :#{#product.inclusionDate})")
+    List<Product> findProduct(@Param("product") Product product, Pageable pageable);
 }

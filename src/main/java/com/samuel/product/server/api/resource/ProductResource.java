@@ -32,7 +32,7 @@ public class ProductResource {
 
     @GetMapping
     public ResponseEntity<List<Product>> getProductsByParameterPageable(
-            @RequestParam(required = false) String id,
+            @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String category,
@@ -53,7 +53,7 @@ public class ProductResource {
 
     @PatchMapping
     public ResponseEntity<Product> updateProduct(
-            @RequestParam(required = false, defaultValue = "") String id,
+            @RequestParam(required = false, defaultValue = "") Long id,
             @RequestBody ProductRequest request) {
         var produto = productService.updateProduct(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(produto);
@@ -61,7 +61,7 @@ public class ProductResource {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@RequestParam(required = false, defaultValue = "") String id) {
+    public void deleteProduct(@RequestParam(required = false, defaultValue = "") Long id) {
         productService.deleteProduct(id);
     }
 }

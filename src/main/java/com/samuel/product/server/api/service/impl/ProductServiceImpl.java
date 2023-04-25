@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(String id, ProductRequest request) {
+    public Product updateProduct(Long id, ProductRequest request) {
         var actualProduct = findByIdOrFail(id);
 
         var productWithUpdates = productConverter.toEntity(request);
@@ -43,15 +43,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(String id) {
+    public void deleteProduct(Long id) {
         findByIdOrFail(id);
         productRepository.deleteById(id);
     }
 
-    private Product findByIdOrFail(String id) {
-        if (id.isBlank()) { throw new ApiException(ApiError.ID_NOT_BLANK); }
+    private Product findByIdOrFail(Long id) {
+        if (id == null) { throw new ApiException(ApiError.ID_NOT_BLANK); }
         return productRepository.findById(id).orElseThrow(() -> new ApiException(ApiError.PRODUCT_NOT_FOUND));
     }
+
+
 
     private Product buildUpdatedProduct(Product actualProduct, Product request) {
         return Product.builder()

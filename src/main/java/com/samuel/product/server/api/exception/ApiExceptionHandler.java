@@ -56,7 +56,13 @@ public class ApiExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiErrorDto> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException exception) {
 
-        var mensagem = exception.getCause().getCause().getMessage();
+        var mensagem = "Algum parâmetro foi não informado corretamente";
+        if (exception.getCause() != null) {
+            mensagem = exception.getCause().getMessage();
+            if(exception.getCause().getCause() != null) {
+                mensagem = exception.getCause().getCause().getMessage();
+            }
+        }
         var titulo = "Erro de formatação - parâmetro inválido";
         var statusCode = HttpStatus.BAD_REQUEST;
         var response = buildApiError(mensagem, "TM-4000", titulo, statusCode);
