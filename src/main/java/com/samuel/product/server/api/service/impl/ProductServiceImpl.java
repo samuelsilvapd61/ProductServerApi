@@ -3,6 +3,8 @@ package com.samuel.product.server.api.service.impl;
 import com.samuel.product.server.api.converter.ProductConverter;
 import com.samuel.product.server.api.domain.Product;
 import com.samuel.product.server.api.domain.request.ProductRequest;
+import com.samuel.product.server.api.exception.ApiError;
+import com.samuel.product.server.api.exception.ApiException;
 import com.samuel.product.server.api.repository.ProductRepository;
 import com.samuel.product.server.api.service.ProductService;
 import com.samuel.product.server.api.util.DateUtil;
@@ -31,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(String id, ProductRequest request) {
+    public Product updateProduct(Long id, ProductRequest request) {
         var actualProduct = findByIdOrFail(id);
 
         var productWithUpdates = productConverter.toEntity(request);
@@ -41,14 +43,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(String id) {
+    public void deleteProduct(Long id) {
         findByIdOrFail(id);
         productRepository.deleteById(id);
     }
 
-    private Product findByIdOrFail(String id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado."));
+    private Product findByIdOrFail(Long id) {
+        if (id == null) { throw new ApiException(ApiError.ID_NOT_BLANK); }
+        return productRepository.findById(id).orElseThrow(() -> new ApiException(ApiError.PRODUCT_NOT_FOUND));
     }
+
+
 
     private Product buildUpdatedProduct(Product actualProduct, Product request) {
         return Product.builder()
