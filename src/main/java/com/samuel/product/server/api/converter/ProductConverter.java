@@ -16,21 +16,24 @@ public class ProductConverter {
                 .category(request.getCategory())
                 .productBrand(request.getProductBrand())
                 .provider(request.getProvider())
+                .quantity(request.getQuantity())
                 .barCode(request.getBarCode())
                 .fabricationDate(request.getFabricationDate())
                 .expirationDate(request.getExpirationDate())
                 .build();
     }
+
     public Product buildNewProduct(Long id,
-                            String name,
-                            String description,
-                            String category,
-                            String productBrand,
-                            String provider,
-                            String barCode,
-                            LocalDate fabricationDate,
-                            LocalDate expirationDate,
-                            LocalDateTime inclusionDate
+                                   String name,
+                                   String description,
+                                   String category,
+                                   String productBrand,
+                                   String provider,
+                                   Long quantity,
+                                   String barCode,
+                                   LocalDate fabricationDate,
+                                   LocalDate expirationDate,
+                                   LocalDateTime inclusionDate
     ) {
         return Product.builder()
                 .id(id)
@@ -39,6 +42,7 @@ public class ProductConverter {
                 .category(category)
                 .productBrand(productBrand)
                 .provider(provider)
+                .quantity(quantity)
                 .barCode(barCode)
                 .fabricationDate(fabricationDate)
                 .expirationDate(expirationDate)

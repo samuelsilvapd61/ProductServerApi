@@ -7,6 +7,7 @@ CREATE TABLE product_server.products (
     category VARCHAR(100) NOT NULL,
     product_brand VARCHAR(100),
     provider VARCHAR(100),
+    quantity BIGINT,
     bar_code VARCHAR(100) UNIQUE,
     fabrication_date DATE,
     expiration_date DATE,
@@ -14,6 +15,7 @@ CREATE TABLE product_server.products (
 );
 
 CREATE TABLE product_server.users (
-    email VARCHAR(100) PRIMARY KEY,
-    password VARCHAR(100) NOT NULL
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );

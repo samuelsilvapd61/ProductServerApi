@@ -38,6 +38,7 @@ public class ProductResource {
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String productBrand,
             @RequestParam(required = false) String provider,
+            @RequestParam(required = false) Long quantity,
             @RequestParam(required = false) String barCode,
             @RequestParam(required = false) LocalDate fabricationDate,
             @RequestParam(required = false) LocalDate expirationDate,
@@ -45,7 +46,7 @@ public class ProductResource {
             @PageableDefault Pageable pageable
     ) {
         var product = productConverter.buildNewProduct(
-                id, name, description, category, productBrand, provider,
+                id, name, description, category, productBrand, provider, quantity,
                 barCode, fabricationDate, expirationDate, inclusionDate);
         var lista = productService.getProductsByParameterPageable(product, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(lista);
