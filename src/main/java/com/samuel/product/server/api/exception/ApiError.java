@@ -19,6 +19,8 @@ public enum ApiError {
     PRODUCT_QUANTITY_NOT_NULL               ("PV-4003", "NotNull.productRequest.quantity", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     PRODUCT_QUANTITY_NOT_NEGATIVE           ("PV-4004", "Min.productRequest.quantity", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     UNKNOW_VALIDATION_ERROR                 ("PV-4005", "msg.unknow-validation-error", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
+    USER_EMAIL_NOT_NULL                     ("UV-4000", "NotBlank.userRequest.email", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
+    USER_PASSWORD_NOT_NULL                  ("UV-4001", "NotBlank.userRequest.password", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     PRODUCT_ID_TYPE_MISMATCH                ("TM-4000", "TypeMismatch.productRequest.id", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
     PRODUCT_NAME_TYPE_MISMATCH              ("TM-4001", "TypeMismatch.productRequest.name", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
     PRODUCT_DESCRIPTION_TYPE_MISMATCH       ("TM-4002", "TypeMismatch.productRequest.description", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
@@ -33,7 +35,8 @@ public enum ApiError {
     UNKNOW_TYPE_MISMATCH_ERROR              ("TM-40011", "msg.unknow-type-tismatch-error", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
     DB_BAR_CODE_UNIQUE                      ("DB-4000", "products.bar_code.unique", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     UNKNOW_ERROR                            ("UE-5000", "msg.unknow-error", HttpStatus.INTERNAL_SERVER_ERROR, TITLE_UNKNOW_SERVER_ERROR),
-    TOKEN_EXPIRED                           ("AD-4010", "msg.token-expired", HttpStatus.UNAUTHORIZED, TITLE_ACCESS_DENIED),
+    INCORRECT_USER_OR_PASSWORD              ("AD-4010", "msg.incorrect-username-or-password", HttpStatus.UNAUTHORIZED, TITLE_ACCESS_DENIED),
+//    TOKEN_EXPIRED                           ("AD-4011", "msg.token-expired", HttpStatus.UNAUTHORIZED, TITLE_ACCESS_DENIED),
     HTTP_NOT_READEBLE                       ("NR-4000", "msg.http-not-readeble", HttpStatus.BAD_REQUEST, TITLE_HTTP_NOT_READABLE);
 
 

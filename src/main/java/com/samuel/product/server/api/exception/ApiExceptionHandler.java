@@ -22,12 +22,6 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-//    @Secured("ROLE_USER")
-//    @ExceptionHandler(TokenExpiredException.class)
-//    public ResponseEntity<ApiErrorDto> tokenExpiredException(TokenExpiredException exception) {
-//        return handleApiException(new ApiException(ApiError.TOKEN_EXPIRED));
-//    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         var e = exception.getFieldError().getCodes()[0];
@@ -74,11 +68,6 @@ public class ApiExceptionHandler {
         return handleApiException(new ApiException(Objects.requireNonNullElse(enumEncontrado, ApiError.UNKNOW_TYPE_MISMATCH_ERROR)));
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiErrorDto> runtimeException(Exception exception) {
-        return handleApiException(new ApiException(ApiError.UNKNOW_ERROR));
-    }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorDto> exception(Exception exception) {
         return handleApiException(new ApiException(ApiError.UNKNOW_ERROR));
@@ -93,10 +82,6 @@ public class ApiExceptionHandler {
                 .timestamp(DateUtil.nowDateTime())
                 .build();
     }
-
-//    private ApiErrorDto buildApiError(ApiError e) {
-//        return buildApiError(e.getFormattedMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
-//    }
 
     private ApiErrorDto buildApiError(ApiException e) {
         return buildApiError(e.getMessage(), e.getCode(), e.getTitle(), e.getHttpStatus());
