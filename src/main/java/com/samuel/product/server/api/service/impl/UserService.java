@@ -2,6 +2,7 @@ package com.samuel.product.server.api.service.impl;
 
 import com.samuel.product.server.api.domain.User;
 import com.samuel.product.server.api.domain.request.UserRequest;
+import com.samuel.product.server.api.domain.response.TokenResponse;
 import com.samuel.product.server.api.exception.ApiError;
 import com.samuel.product.server.api.exception.ApiException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class UserService {
     @Autowired
     private TokenService tokenService;
 
-    public String doLogin(UserRequest request) {
+    public TokenResponse doLogin(UserRequest request) {
         try {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
@@ -30,7 +31,10 @@ public class UserService {
 
             var usuario = (User) authenticate.getPrincipal();
 
-            return tokenService.gerarToken(usuario);
+            var tokenResponse = TokenResponse.builder()
+                    .token(tokenService.gerarToken(usuario))
+                    .build();
+            return tokenResponse;
         } catch (Exception e) {
             throw new ApiException(ApiError.INCORRECT_USER_OR_PASSWORD);
         }

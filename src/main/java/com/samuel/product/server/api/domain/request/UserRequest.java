@@ -1,11 +1,11 @@
 package com.samuel.product.server.api.domain.request;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
+@Builder
 public class UserRequest {
 
     @NotBlank

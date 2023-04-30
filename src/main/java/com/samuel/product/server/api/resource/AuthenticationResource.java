@@ -1,6 +1,7 @@
 package com.samuel.product.server.api.resource;
 
 import com.samuel.product.server.api.domain.request.UserRequest;
+import com.samuel.product.server.api.domain.response.TokenResponse;
 import com.samuel.product.server.api.service.impl.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,9 @@ public class AuthenticationResource {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody UserRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.doLogin(request));
+    public ResponseEntity<TokenResponse> login(@Valid @RequestBody UserRequest request) {
+        var tokenResponse = userService.doLogin(request);
+        return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
     }
 
 }
