@@ -33,7 +33,6 @@ public enum ApiError {
     PRODUCT_EXPIRATION_DATE_TYPE_MISMATCH   ("TM-4009", "TypeMismatch.productRequest.expirationDate", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
     PRODUCT_INCLUSION_DATE_TYPE_MISMATCH    ("TM-40010", "TypeMismatch.productRequest.inclusionDate", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
     UNKNOW_TYPE_MISMATCH_ERROR              ("TM-40011", "msg.unknow-type-tismatch-error", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
-    DB_BAR_CODE_UNIQUE                      ("DB-4000", "products.bar_code.unique", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     UNKNOW_ERROR                            ("UE-5000", "msg.unknow-error", HttpStatus.INTERNAL_SERVER_ERROR, TITLE_UNKNOW_SERVER_ERROR),
     INCORRECT_USER_OR_PASSWORD              ("AD-4010", "msg.incorrect-username-or-password", HttpStatus.UNAUTHORIZED, TITLE_ACCESS_DENIED),
 //    TOKEN_EXPIRED                           ("AD-4011", "msg.token-expired", HttpStatus.UNAUTHORIZED, TITLE_ACCESS_DENIED),

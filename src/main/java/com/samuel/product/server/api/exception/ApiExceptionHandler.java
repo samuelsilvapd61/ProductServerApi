@@ -29,30 +29,6 @@ public class ApiExceptionHandler {
         return handleApiException(new ApiException(Objects.requireNonNullElse(enumEncontrado, ApiError.UNKNOW_VALIDATION_ERROR)));
     }
 
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<ApiErrorDto>  handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException exception) {
-        ApiError enumEncontrado = null;
-        if (exception.getSQLState().equals("23000")) {
-            var message = exception.getMessage();
-            var fieldName = message.substring(message.indexOf("products."), message.length()-1);
-            var messageKey = fieldName+".unique";
-            enumEncontrado = ApiError.encontrarEnum(messageKey);
-        }
-        return handleApiException(new ApiException(Objects.requireNonNullElse(enumEncontrado, ApiError.UNKNOW_VALIDATION_ERROR)));
-    }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiErrorDto>  handleSQLIntegrityConstraintViolationException(DataIntegrityViolationException exception) {
-        ApiError enumEncontrado = null;
-        if (exception.getCause() != null) {
-            var message = exception.getMessage();
-            var fieldName = message.substring(message.indexOf("products."), message.length()-1);
-            var messageKey = fieldName+".unique";
-            enumEncontrado = ApiError.encontrarEnum(messageKey);
-        }
-        return handleApiException(new ApiException(Objects.requireNonNullElse(enumEncontrado, ApiError.UNKNOW_VALIDATION_ERROR)));
-    }
-
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiErrorDto> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
         return handleApiException(new ApiException(ApiError.HTTP_NOT_READEBLE));

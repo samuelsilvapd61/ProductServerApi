@@ -8,7 +8,7 @@ CREATE TABLE product_server.products (
     product_brand VARCHAR(100),
     provider VARCHAR(100),
     quantity BIGINT,
-    bar_code VARCHAR(100) UNIQUE,
+    bar_code VARCHAR(100),
     fabrication_date DATE,
     expiration_date DATE,
     inclusion_date TIMESTAMP NOT NULL
