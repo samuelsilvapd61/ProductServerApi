@@ -25,12 +25,13 @@ public class ProductResource {
     private final ProductConverter productConverter;
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductRequest request) {
-        var produto = productService.addProduct(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(produto);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addProduct(@Valid @RequestBody ProductRequest request) {
+        productService.addProduct(request);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Product>> getProductsByParameterPageable(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
@@ -42,26 +43,31 @@ public class ProductResource {
             @RequestParam(required = false) String barCode,
             @RequestParam(required = false) LocalDate fabricationDate,
             @RequestParam(required = false) LocalDate expirationDate,
-            @RequestParam(required = false) LocalDateTime inclusionDate,
+            @RequestParam(required = false) LocalDate inclusionDate,
             @PageableDefault Pageable pageable
     ) {
+        LocalDateTime inclusionDateTime = null;
+        if (inclusionDate != null) {
+            inclusionDateTime = inclusionDate.atStartOfDay();
+        }
         var product = productConverter.buildNewProduct(
                 id, name, description, category, productBrand, provider, quantity,
-                barCode, fabricationDate, expirationDate, inclusionDate);
+                barCode, fabricationDate, expirationDate, inclusionDateTime);
         var lista = productService.getProductsByParameterPageable(product, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
     @PatchMapping
-    public ResponseEntity<Product> updateProduct(
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProduct(
             @RequestParam(required = false, defaultValue = "") Long id,
-            @RequestBody ProductRequest request) {
-        var produto = productService.updateProduct(id, request);
-        return ResponseEntity.status(HttpStatus.OK).body(produto);
+            @RequestBody ProductRequest request
+    ) {
+        productService.updateProduct(id, request);
     }
 
     @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteProduct(@RequestParam(required = false, defaultValue = "") Long id) {
         productService.deleteProduct(id);
     }

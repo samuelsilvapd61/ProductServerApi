@@ -2,14 +2,30 @@ package com.samuel.product.server.api.converter;
 
 import com.samuel.product.server.api.domain.Product;
 import com.samuel.product.server.api.domain.request.ProductRequest;
+import com.samuel.product.server.api.exception.ApiError;
+import com.samuel.product.server.api.exception.ApiException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 @Component
 public class ProductConverter {
     public Product toEntity(ProductRequest request) {
+        LocalDate fabricationDate;
+        try {
+            fabricationDate = LocalDate.parse(request.getFabricationDate());
+        } catch (DateTimeParseException e) {
+            throw new ApiException(ApiError.PRODUCT_FABRICATION_DATE_TYPE_MISMATCH);
+        }
+        LocalDate expirationDate;
+        try {
+            expirationDate = LocalDate.parse(request.getFabricationDate());
+        } catch (DateTimeParseException e) {
+            throw new ApiException(ApiError.PRODUCT_EXPIRATION_DATE_TYPE_MISMATCH);
+        }
+
         return Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
@@ -18,8 +34,8 @@ public class ProductConverter {
                 .provider(request.getProvider())
                 .quantity(request.getQuantity())
                 .barCode(request.getBarCode())
-                .fabricationDate(request.getFabricationDate())
-                .expirationDate(request.getExpirationDate())
+                .fabricationDate(fabricationDate)
+                .expirationDate(expirationDate)
                 .build();
     }
 
