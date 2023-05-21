@@ -21,7 +21,7 @@ public class ProductConverter {
         }
         LocalDate expirationDate;
         try {
-            expirationDate = LocalDate.parse(request.getFabricationDate());
+            expirationDate = LocalDate.parse(request.getExpirationDate());
         } catch (DateTimeParseException e) {
             throw new ApiException(ApiError.PRODUCT_EXPIRATION_DATE_TYPE_MISMATCH);
         }
