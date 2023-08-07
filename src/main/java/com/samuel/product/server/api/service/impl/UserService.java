@@ -24,7 +24,7 @@ public class UserService {
     public TokenResponse doLogin(UserRequest request) {
         try {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+                    new UsernamePasswordAuthenticationToken(request.getUser(), request.getPassword());
 
             Authentication authenticate =
                     authenticationManager.authenticate(usernamePasswordAuthenticationToken);

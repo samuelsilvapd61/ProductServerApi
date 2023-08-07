@@ -25,7 +25,7 @@ public enum ApiError {
     PRODUCT_PROVIDER_MAX_CHARACTERS         ("PV-4009", "Size.productRequest.provider", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     PRODUCT_BARCODE_MAX_CHARACTERS          ("PV-40010", "Size.productRequest.barCode", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     UNKNOW_VALIDATION_ERROR                 ("PV-40011", "msg.unknow-validation-error", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
-    USER_EMAIL_NOT_NULL                     ("UV-4000", "NotBlank.userRequest.email", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
+    USER_EMAIL_NOT_NULL                     ("UV-4000", "NotBlank.userRequest.user", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     USER_PASSWORD_NOT_NULL                  ("UV-4001", "NotBlank.userRequest.password", HttpStatus.BAD_REQUEST, TITLE_VALIDATION_ERROR),
     PRODUCT_ID_TYPE_MISMATCH                ("TM-4000", "TypeMismatch.productRequest.id", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),
     PRODUCT_NAME_TYPE_MISMATCH              ("TM-4001", "TypeMismatch.productRequest.name", HttpStatus.BAD_REQUEST, TITLE_TYPE_MISMATCH_ERROR),

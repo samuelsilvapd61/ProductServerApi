@@ -13,15 +13,19 @@ import java.time.format.DateTimeParseException;
 @Component
 public class ProductConverter {
     public Product toEntity(ProductRequest request) {
-        LocalDate fabricationDate;
+         LocalDate fabricationDate = null;
         try {
-            fabricationDate = LocalDate.parse(request.getFabricationDate());
+            if (request.getFabricationDate() != null) {
+                fabricationDate = LocalDate.parse(request.getFabricationDate());
+            }
         } catch (DateTimeParseException e) {
             throw new ApiException(ApiError.PRODUCT_FABRICATION_DATE_TYPE_MISMATCH);
         }
-        LocalDate expirationDate;
+        LocalDate expirationDate = null;
         try {
-            expirationDate = LocalDate.parse(request.getExpirationDate());
+            if (request.getExpirationDate() != null) {
+                expirationDate = LocalDate.parse(request.getExpirationDate());
+            }
         } catch (DateTimeParseException e) {
             throw new ApiException(ApiError.PRODUCT_EXPIRATION_DATE_TYPE_MISMATCH);
         }
