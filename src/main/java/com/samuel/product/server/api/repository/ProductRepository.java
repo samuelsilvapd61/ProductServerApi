@@ -20,9 +20,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "(:#{#product.category} IS NULL OR p.category LIKE %:#{#product.category}%) AND " +
             "(:#{#product.productBrand} IS NULL OR p.productBrand LIKE %:#{#product.productBrand}%) AND " +
             "(:#{#product.provider} IS NULL OR p.provider LIKE %:#{#product.provider}%) AND " +
-            "(:#{#product.barCode} IS NULL OR p.barCode = :#{#product.barCode}) AND " +
+            "(:#{#product.quantity} IS NULL OR p.quantity = :#{#product.quantity}) AND " +
+            "(:#{#product.barCode} IS NULL OR p.barCode LIKE %:#{#product.barCode}%) AND " +
             "(:#{#product.fabricationDate} IS NULL OR p.fabricationDate = :#{#product.fabricationDate}) AND " +
             "(:#{#product.expirationDate} IS NULL OR p.expirationDate = :#{#product.expirationDate}) AND " +
-            "(:#{#product.inclusionDate} IS NULL OR p.inclusionDate = :#{#product.inclusionDate})")
+            "(:#{#product.inclusionDate} IS NULL OR DATE(p.inclusionDate) = DATE(:#{#product.inclusionDate}))")
     List<Product> findProduct(@Param("product") Product product, Pageable pageable);
 }

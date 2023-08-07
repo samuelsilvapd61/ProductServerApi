@@ -25,6 +25,7 @@ public class Product {
     private String category;
     private String productBrand;
     private String provider;
+    private Long quantity;
     private String barCode;
     private LocalDate fabricationDate;
     private LocalDate expirationDate;

@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
                 .category(request.getCategory() != null ? request.getCategory() : actualProduct.getCategory())
                 .productBrand(request.getProductBrand() != null ? request.getProductBrand() : actualProduct.getProductBrand())
                 .provider(request.getProvider() != null ? request.getProvider() : actualProduct.getProvider())
+                .quantity(request.getQuantity() != null ? request.getQuantity() : actualProduct.getQuantity())
                 .barCode(request.getBarCode() != null ? request.getBarCode() : actualProduct.getBarCode())
                 .fabricationDate(request.getFabricationDate() != null ? request.getFabricationDate() : actualProduct.getFabricationDate())
                 .expirationDate(request.getExpirationDate() != null ? request.getExpirationDate() : actualProduct.getExpirationDate())
